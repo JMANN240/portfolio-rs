@@ -33,12 +33,14 @@ async fn main() {
         tokio::fs::create_dir_all(path.parent().unwrap())
             .await
             .unwrap();
-        tokio::fs::write(&path, "").await.unwrap();
+
+        let listener = UnixListener::bind(path.clone()).unwrap();
+
         tokio::fs::set_permissions(&path, Permissions::from_mode(0o770))
             .await
             .unwrap();
 
-        serve_with_listener(UnixListener::bind(path.clone()).unwrap()).await;
+        serve_with_listener(listener).await;
     }
 }
 
