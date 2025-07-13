@@ -1,0 +1,11 @@
+[package]
+name = "portfolio-rs"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+axum = "0.8.4"
+clap = { version = "4.5.41", features = ["derive"] }
+maud = { version = "0.27.0", features = ["axum"] }
+tokio = { version = "1.46.1", features = ["full"] }
+tower-http = { version = "0.6.6", features = ["fs"] }

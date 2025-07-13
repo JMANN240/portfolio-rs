@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+body {
+    background-color: var(--prim);
+    color: var(--sec);
+    font-family: 'Roboto', sans-serif;
+    width: 100vw;
+}
+
+@media (prefers-color-scheme: dark) {
+     :root {
+        --prim: #efefef;
+        --prim-darker: #d0d0d0;
+        --prim-lighter: #ffffff;
+        --sec: #202020;
+        --sec-darker: #101010;
+        --sec-lighter: #303030;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+     :root {
+        --prim: #181818;
+        --prim-darker: #121212;
+        --prim-lighter: #1d1d1d;
+        --sec: #e0e0e0;
+        --sec-darker: #d0d0d0;
+        --sec-lighter: #f0f0f0;
+    }
+}
+
+h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+p {
+    font-size: 1rem;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.neumorphic {
+    background-color: inherit;
+    color: inherit;
+    border: 0px;
+    padding: 0.25em 0.5em;
+    margin: 0.25em 0.5em;
+}
+
+.outset {
+    box-shadow: 0.125em 0.125em 0.25em 0em var(--prim-darker), -0.125em -0.125em 0.25em 0em var(--prim-lighter);
+    transition-duration: 0.05s;
+    border-radius: 0.125em;
+    border: 1px solid var(--prim);
+}
+
+.clickable.outset:hover {
+    transform: scale(0.98);
+}
+
+.clickable.outset:active {
+    box-shadow: 0em 0em 0em 0em var(--prim-darker), 0em 0em 0em 0em var(--prim-lighter);
+    transform: scale(0.96);
+    border: 1px inset var(--prim-darker);
+}
+
+.inset {
+    box-shadow: 0.125em 0.125em 0.25em 0em var(--prim-darker) inset, -0.125em -0.125em 0.25em 0em var(--prim-lighter) inset;
+    border-radius: 0.25em;
+}
+
+#toggle-darkmode {
+    position: fixed;
+    bottom: 1vmax;
+    right: 1vmax;
+    font-size: 1.5rem;
+}
+
+.social {
+    text-align: center;
+    width: 3ch;
+    height: 3ch;
+    border-radius: 3ch;
+    padding: 0px;
+}
