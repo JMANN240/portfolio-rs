@@ -33,6 +33,7 @@ async fn main() {
         tokio::fs::create_dir_all(path.parent().unwrap())
             .await
             .unwrap();
+        tokio::fs::write(&path, "").await.unwrap();
         tokio::fs::set_permissions(&path, Permissions::from_mode(0o770))
             .await
             .unwrap();
