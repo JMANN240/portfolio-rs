@@ -1,15 +1,15 @@
-use std::{fmt::Debug, path::PathBuf};
+use std::{fmt::Debug, fs::Permissions, os::unix::fs::PermissionsExt, path::PathBuf};
 
 use axum::{Router, routing::get, serve::Listener};
 use clap::{Args, Parser};
-use maud::{html, Markup, Render, DOCTYPE};
+use maud::{DOCTYPE, Markup, Render, html};
 use tokio::net::{TcpListener, UnixListener};
 use tower_http::services::ServeDir;
 
 #[derive(Parser)]
 struct Cli {
     #[command(flatten)]
-    listen: Listen
+    listen: Listen,
 }
 
 #[derive(Args)]
@@ -27,15 +27,13 @@ async fn main() {
     let cli = Cli::parse();
 
     if let Some(port) = cli.listen.port {
-        serve_with_listener(
-            TcpListener::bind(format!("0.0.0.0:{port}"))
-                .await
-                .unwrap(),
-        )
-        .await;
+        serve_with_listener(TcpListener::bind(format!("0.0.0.0:{port}")).await.unwrap()).await;
     } else if let Some(path) = cli.listen.uds {
         let _ = tokio::fs::remove_file(&path).await;
         tokio::fs::create_dir_all(path.parent().unwrap())
+            .await
+            .unwrap();
+        tokio::fs::set_permissions(&path, Permissions::from_mode(0o770))
             .await
             .unwrap();
 
@@ -131,7 +129,7 @@ async fn root() -> Markup {
                     name: "pshbtn",
                     description: "This is a very simple productivity web app inspired by Simone Giertz's Every Day Calendar. There are 100 buttons on the screen. When you tap/click on one it will light up and make a satisfying 'click' noise. This project was very CSS heavy to make the most satisfying UX I could.",
                 },
-            ]
+            ],
         },
         Shelf {
             name: "Freelance Experience",
@@ -152,30 +150,30 @@ async fn root() -> Markup {
                     name: "Test Grader",
                     description: "An automatic test grader that scans a test sheet like a scantron and tells the user their score using openCV. This job was rather challenging due to my then lack of experience using computer vision.",
                 },
-            ]
-        }
+            ],
+        },
     ];
 
     let sites = vec![
         Site {
             url: "https://www.youtube.com/JMANN240",
             color: "#c4302b",
-            icon: "fa-youtube"
+            icon: "fa-youtube",
         },
         Site {
             url: "https://github.com/JMANN240",
             color: "#4078c0",
-            icon: "fa-github"
+            icon: "fa-github",
         },
         Site {
             url: "https://stackoverflow.com/users/14108612/jt-raber",
             color: "#f48024",
-            icon: "fa-stack-overflow"
+            icon: "fa-stack-overflow",
         },
         Site {
             url: "https://www.linkedin.com/in/johnathon-raber-926b63209/",
             color: "#2867b2",
-            icon: "fa-linkedin"
+            icon: "fa-linkedin",
         },
     ];
 
