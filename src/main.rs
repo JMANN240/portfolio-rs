@@ -1,4 +1,4 @@
-use std::{fmt::Debug, fs::Permissions, os::unix::fs::PermissionsExt, path::PathBuf};
+use std::{fmt::Debug, path::PathBuf};
 
 use axum::{Router, routing::get, serve::Listener};
 use clap::{Args, Parser};
@@ -35,10 +35,6 @@ async fn main() {
             .unwrap();
 
         let listener = UnixListener::bind(path.clone()).unwrap();
-
-        tokio::fs::set_permissions(&path, Permissions::from_mode(0o770))
-            .await
-            .unwrap();
 
         serve_with_listener(listener).await;
     }
